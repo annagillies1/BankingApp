@@ -56,11 +56,10 @@ public class Account {
     }
 
     // interest rate calculation
-    void calculateInterest(int years) {
+    public String calculateInterest(int years) {
         double interestRate = .0185;
         double newBalance = (balance * interestRate * years) + balance;
-        System.out.println("The current interest rate is set to " + interestRate);
-        System.out.println("In " + " years, your balance will be £" + newBalance);
+        return "The current interest rate is set to" + interestRate + "in " + years + " year;s, your balance will be £" + newBalance;
     }
 
 

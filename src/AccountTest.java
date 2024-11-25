@@ -1,15 +1,15 @@
-import org.junit.Assert;
-import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 
+import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
+
 
 
 class AccountTest {
 
-    // testing the withdraw feature
+    // testing the withdrawal feature
     @Test
     void depositShouldEqualTen() {
         Account account = new Account("Test Account");
@@ -18,7 +18,7 @@ class AccountTest {
     }
 
 
-    // testing the withdraw feature
+    // testing the withdrawal feature
     @Test
     void withdrawEqualOne() {
         Account account = new Account("Test Account");
@@ -40,7 +40,7 @@ class AccountTest {
         account.deposit(10);
         account.getPreviousTransaction();
         String output = outputStream.toString().trim();
-        assertEquals("Deposited: 10", output);
+        assertEquals("You last deposited: £10. Your current balance is: £10", output);
     }
 
 // testing withdraw
@@ -57,31 +57,6 @@ class AccountTest {
         account.withdraw(10);
         account.getPreviousTransaction();
         String output = outputStream.toString().trim();
-        assertEquals("Withdrawn: 10", output);
+        assertEquals("You last withdrew: £10. Your current balance is: £40", output);
     }
 }
-
-//    @org.junit.jupiter.api.Test
-//    void getBalance() {
-//    }
-//
-//    @org.junit.jupiter.api.Test
-//    void getAccountID() {
-//    }
-//
-//    @org.junit.jupiter.api.Test
-//    void deposit() {
-//    }
-//
-//    @org.junit.jupiter.api.Test
-//    void withdraw() {
-//    }
-//
-//    @org.junit.jupiter.api.Test
-//    void getPreviousTransaction() {
-//    }
-//
-//    @org.junit.jupiter.api.Test
-//    void calculateInterest() {
-//    }
-//}

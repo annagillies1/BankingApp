@@ -1,30 +1,24 @@
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 
 public class Bank {
 
-    public static void main(String[] args) {
-        // Create users and their accounts
-        User anna = new User("A0001", "Anna", "1234");
-        Account annaSavings = new Account("SAV001");
-        anna.setAccounts(new ArrayList<>(List.of(annaSavings)));
+    private static List<User> users = new ArrayList<>();
 
-        User mark = new User("A0002", "Mark", "2345");
-        Account markSavings = new Account("SAV002");
-        mark.setAccounts(new ArrayList<>(List.of(markSavings)));
+    public static void main(String[] args) {
+        loadUsersFromCSV();
 
         // Login and show menu for Anna
         Scanner scanner = new Scanner(System.in);
         System.out.println("Enter your name: ");
         String name = scanner.nextLine();
 
-        User currentUser;
-        if (name.equalsIgnoreCase("Anna")) {
-            currentUser = anna;
-        } else if (name.equalsIgnoreCase("Mark")) {
-            currentUser = mark;
-        } else {
+        User currentUser = findUserByName(name);
+        if (currentUser == null) {
             System.out.println("No user found with the name: " + name);
             return; // Exit the program
         }
@@ -38,8 +32,35 @@ public class Bank {
             return; // Exit the program
         }
 
+
         // Show menu for the logged-in user
         showMenu(currentUser);
+    }
+
+    private static void loadUsersFromCSV(){
+        try (BufferedReader br = new BufferedReader(new FileReader("/Users/annagillies/Desktop/Java_Projects/BankingApp/users.csv"))){
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] data = line.split(",");
+                if (data.length == 3){
+                    User user = new User(data[0], data[1], data[2]);
+                    Account account = new Account("ACC" + data[0]);
+                    user.setAccounts(new ArrayList<>(List.of(account)));
+                    users.add(user);
+                }
+            }
+        } catch (IOException e){
+            System.out.println("Error reading the CSV file: " + e.getMessage());
+        }
+    }
+
+    private static User findUserByName(String name){
+        for (User user : users){
+            if (user.getName().equalsIgnoreCase(name)){
+                return user;
+            }
+        }
+    return null;
     }
 
     private static void showMenu(User user) {
@@ -47,7 +68,7 @@ public class Bank {
         Scanner scanner = new Scanner(System.in);
 
         List<Account> accounts = user.getAccounts();
-        Account account = accounts.get(0); // For simplicity, using the first account
+        Account account = accounts.getFirst(); // For simplicity, using the first account
 
         System.out.println("Welcome, " + user.getName());
         System.out.println("Your ID is: " + user.getCustomerID());
