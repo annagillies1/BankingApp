@@ -1,18 +1,18 @@
-import java.util.Objects;
-import java.util.Scanner;
-
+import java.util.ArrayList;
+import java.util.List;
 
 public class Account {
 
     // importing the class variables
     int balance;
-    int previousTransaction;
+    List<String> transactionHistory;
     String accountID;
 
     //constructor for account
     public Account(String accountID) {
         this.accountID = accountID;
         this.balance = 0;
+        this.transactionHistory = new ArrayList<>();
     }
 
     // Getter for balance (now public)
@@ -30,7 +30,7 @@ public class Account {
     public void deposit(int amount) {
         if (amount != 0) {
             balance += amount;
-            previousTransaction = amount;
+            transactionHistory.add("Deposited £" + amount + ". Balance: £" + balance);
         }
     }
 
@@ -38,28 +38,30 @@ public class Account {
     public void withdraw(int amount) {
         if (amount != 0 && amount <= balance) {
             balance = balance - amount;
-            previousTransaction = -amount;
+            transactionHistory.add("Withdrew £" + amount + ". Balance: £" + balance);
         } else {
-            System.out.println("Insufficient funds or invalid amount");
+            transactionHistory.add("Failed withdrawal attempt of £" + amount + ". Balance: £" + balance);
         }
     }
 
     // function to show the previous transaction
-    public void getPreviousTransaction() {
-        if (previousTransaction > 0) {
-            System.out.println("You last deposited: £" + previousTransaction + ". Your current balance is: £" + getBalance());
-        } else if (previousTransaction < 0) {
-            System.out.println("You last withdrew: £" + (-previousTransaction) + ". Your current balance is: £" + getBalance());
-        } else {
-            System.out.println("No available transactions");
+    public String getTransactionHistory() {
+        if (transactionHistory.isEmpty()) {
+            return "No transactions available.";
         }
+        StringBuilder history = new StringBuilder();
+        for (String transaction : transactionHistory) {
+            history.append(transaction).append("\n");
+        }
+        return history.toString();
     }
+
 
     // interest rate calculation
     public String calculateInterest(int years) {
         double interestRate = .0185;
         double newBalance = (balance * interestRate * years) + balance;
-        return "The current interest rate is set to" + interestRate + "in " + years + " year;s, your balance will be £" + newBalance;
+        return "The current interest rate is set to " + interestRate + ". in " + years + " years, your balance will be £" + newBalance;
     }
 
 

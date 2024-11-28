@@ -1,11 +1,15 @@
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class BankingDashboard implements ActionListener {
 
     private User currentUser;
     private JLabel balanceLabel;
+    private JLabel userLabel;
     private JButton depositButton;
     private JButton withdrawButton;
     private JButton checkBalanceButton;
@@ -14,6 +18,7 @@ public class BankingDashboard implements ActionListener {
 
     public BankingDashboard(User user) {
         this.currentUser = user;
+        Account account = currentUser.getAccounts().getFirst();
 
         // initialising the frame
         JFrame frame = new JFrame();
@@ -23,8 +28,14 @@ public class BankingDashboard implements ActionListener {
         frame.add(panel);
         panel.setLayout(null);
 
+        panel.setBackground(new Color(176, 172, 136));
+
+        // the user label
+        userLabel = new JLabel("Current user: " + currentUser.getName());
+        userLabel.setBounds(10,5,400,25);
+        panel.add(userLabel);
         // the balance label
-        balanceLabel = new JLabel("Your balance is: £" + currentUser.getAccounts().get(0).getBalance());
+        balanceLabel = new JLabel("Your balance is: £" + account.getBalance());
         balanceLabel.setBounds(10, 20, 300, 25);
         panel.add(balanceLabel);
 
@@ -54,9 +65,94 @@ public class BankingDashboard implements ActionListener {
 
         // previous transaction button
         previousTransactionButton = new JButton("Check previous transactions");
-        previousTransactionButton.setBounds(10, 170, 150, 25);
+        previousTransactionButton.setBounds(10, 170, 250, 25);
         previousTransactionButton.addActionListener(this);
         panel.add(previousTransactionButton);
+
+
+
+
+        depositButton.addMouseListener(new MouseAdapter(){
+            @Override
+            public void mouseEntered(MouseEvent evt){
+                System.out.println("Mouse entered button area.");
+                depositButton.setBackground(Color.WHITE);
+                depositButton.setFont(new Font("SansSerif", Font.BOLD, 12));
+            }
+
+            @Override
+            public void mouseExited(MouseEvent evt){
+                System.out.println("Mouse exited button area.");
+                depositButton.setBackground(Color.WHITE);
+                depositButton.setFont(new Font("SansSerif", Font.PLAIN, 12));
+            }
+        });
+
+        withdrawButton.addMouseListener(new MouseAdapter(){
+            @Override
+            public void mouseEntered(MouseEvent evt){
+                System.out.println("Mouse entered button area.");
+                withdrawButton.setBackground(Color.WHITE);
+                withdrawButton.setFont(new Font("SansSerif", Font.BOLD, 12));
+            }
+
+            @Override
+            public void mouseExited(MouseEvent evt){
+                System.out.println("Mouse exited button area.");
+                withdrawButton.setBackground(Color.WHITE);
+                withdrawButton.setFont(new Font("SansSerif", Font.PLAIN, 12));
+            }
+        });
+
+
+        // CONFIGURING THE MOUSE BUTTON EVENTS
+        calculateInterestButton.addMouseListener(new MouseAdapter(){
+            @Override
+            public void mouseEntered(MouseEvent evt){
+                System.out.println("Mouse entered button area.");
+                calculateInterestButton.setBackground(Color.WHITE);
+                calculateInterestButton.setFont(new Font("SansSerif", Font.BOLD, 12));
+            }
+
+            @Override
+            public void mouseExited(MouseEvent evt){
+                System.out.println("Mouse exited button area.");
+                calculateInterestButton.setBackground(Color.WHITE);
+                calculateInterestButton.setFont(new Font("SansSerif", Font.PLAIN, 12));
+            }
+        });
+
+        checkBalanceButton.addMouseListener(new MouseAdapter(){
+            @Override
+            public void mouseEntered(MouseEvent evt){
+                System.out.println("Mouse entered button area.");
+                checkBalanceButton.setBackground(Color.WHITE);
+                checkBalanceButton.setFont(new Font("SansSerif", Font.BOLD, 12));
+            }
+
+            @Override
+            public void mouseExited(MouseEvent evt){
+                System.out.println("Mouse exited button area.");
+                checkBalanceButton.setBackground(Color.WHITE);
+                checkBalanceButton.setFont(new Font("SansSerif", Font.PLAIN, 12));
+            }
+        });
+
+        previousTransactionButton.addMouseListener(new MouseAdapter(){
+            @Override
+            public void mouseEntered(MouseEvent evt){
+                System.out.println("Mouse entered button area.");
+                previousTransactionButton.setBackground(Color.WHITE);
+                previousTransactionButton.setFont(new Font("SansSerif", Font.BOLD, 12));
+            }
+
+            @Override
+            public void mouseExited(MouseEvent evt){
+                System.out.println("Mouse exited button area.");
+                previousTransactionButton.setBackground(Color.WHITE);
+                previousTransactionButton.setFont(new Font("SansSerif", Font.PLAIN, 12));
+            }
+        });
 
         frame.setVisible(true);
 
@@ -66,25 +162,28 @@ public class BankingDashboard implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         Account account = currentUser.getAccounts().getFirst();
 
+
         if (e.getSource() == depositButton) {
             String amountStr = JOptionPane.showInputDialog("Enter the deposit amount");
             try {
                 int amount = Integer.parseInt(amountStr);
                 account.deposit(amount);
-                JOptionPane.showMessageDialog(null, "You have deposited £" + amount + " your new balance is £" + account.getBalance() + ".");
+                refreshBalanceLabel();  // Refresh the balance label
+                JOptionPane.showMessageDialog(null, "You have deposited £" + amount + ". Your new balance is £" + account.getBalance() + ".");
             } catch (NumberFormatException ex) {
                 JOptionPane.showMessageDialog(null, "Invalid amount entered.");
             }
-        } else if (e.getSource() == withdrawButton) {
+    } else if (e.getSource() == withdrawButton) {
             String amountStr = JOptionPane.showInputDialog("Enter the withdrawal amount");
             try {
                 int amount = Integer.parseInt(amountStr);
                 account.withdraw(amount);
-                JOptionPane.showMessageDialog(null, "You have withdrawn £" + amount + " your new balance is £" + account.getBalance() + ".");
+                refreshBalanceLabel();  // Refresh the balance label
+                JOptionPane.showMessageDialog(null, "You have withdrawn £" + amount + ". Your new balance is £" + account.getBalance() + ".");
             } catch (NumberFormatException ex) {
-                JOptionPane.showMessageDialog(null, "Invalid amount entered");
+                JOptionPane.showMessageDialog(null, "Invalid amount entered.");
             }
-        } else if (e.getSource() == checkBalanceButton) {
+    } else if (e.getSource() == checkBalanceButton) {
             JOptionPane.showMessageDialog(null, "Your balance is: £" + account.getBalance());
         } else if (e.getSource() == calculateInterestButton) {
             String yearsStr = JOptionPane.showInputDialog("Enter the number of years for interest calculation:");
@@ -95,7 +194,22 @@ public class BankingDashboard implements ActionListener {
             } catch (NumberFormatException ex) {
                 JOptionPane.showMessageDialog(null, "Invalid number of years entered.");
             }
+        } else if (e.getSource() == previousTransactionButton) {
+            // Assuming Account has a method to get the transaction history
+            String transactionHistory = account.getTransactionHistory(); // Fetch transaction history
+            if (transactionHistory == null || transactionHistory.isEmpty()) {
+                transactionHistory = "No transactions available.";
+            }
+            JOptionPane.showMessageDialog(null, transactionHistory, "Previous Transactions", JOptionPane.INFORMATION_MESSAGE);
         }
+
+
     }
+
+    private void refreshBalanceLabel() {
+        Account account = currentUser.getAccounts().getFirst();
+        balanceLabel.setText("Your balance is: £" + account.getBalance());
+    }
+
 }
 // CLOSE INITIAL WINDOW

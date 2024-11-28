@@ -103,7 +103,7 @@ public class Bank {
                     System.out.println("You have successfully withdrawn £" + withdrawal + ". Your new balance is £" + account.getBalance() +".");
                     break;
                 case 'D':
-                    account.getPreviousTransaction();
+                    account.getTransactionHistory();
                     break;
                 case 'E':
                     System.out.println("Enter the number of years for interest calculation: ");

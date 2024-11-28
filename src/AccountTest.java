@@ -38,7 +38,7 @@ class AccountTest {
         // creating an account and performing a transaction
         Account account = new Account("Test Account");
         account.deposit(10);
-        account.getPreviousTransaction();
+        account.getTransactionHistory();
         String output = outputStream.toString().trim();
         assertEquals("You last deposited: £10. Your current balance is: £10", output);
     }
@@ -55,7 +55,7 @@ class AccountTest {
         Account account = new Account("Test Account");
         account.deposit(50);
         account.withdraw(10);
-        account.getPreviousTransaction();
+        account.getTransactionHistory();
         String output = outputStream.toString().trim();
         assertEquals("You last withdrew: £10. Your current balance is: £40", output);
     }
