@@ -25,7 +25,7 @@ public class User {
     }
 
     public String getPassword() {
-        return password; // Add this method to resolve the issue
+        return password;
     }
 
     public List<Account> getAccounts() {

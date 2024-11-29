@@ -38,7 +38,7 @@ public class Bank {
     }
 
     private static void loadUsersFromCSV(){
-        try (BufferedReader br = new BufferedReader(new FileReader("/Users/annagillies/Desktop/Java_Projects/BankingApp/users.csv"))){
+        try (BufferedReader br = new BufferedReader(new FileReader("users.csv"))){
             String line;
             while ((line = br.readLine()) != null) {
                 String[] data = line.split(",");

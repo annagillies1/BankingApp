@@ -27,7 +27,6 @@ public class BankingDashboard implements ActionListener {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.add(panel);
         panel.setLayout(null);
-
         panel.setBackground(new Color(176, 172, 136));
 
         // the user label

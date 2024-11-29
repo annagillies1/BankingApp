@@ -9,14 +9,13 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class AccountTest {
 
-    // testing the withdrawal feature
+    // testing the deposit feature
     @Test
     void depositShouldEqualTen() {
         Account account = new Account("Test Account");
         account.deposit(10);
         assertEquals(10, account.getBalance());
     }
-
 
     // testing the withdrawal feature
     @Test
@@ -44,19 +43,22 @@ class AccountTest {
     }
 
 // testing withdraw
-    @Test
-    void previousGetTransactionWithdrawTest(){
-        // redirecting System.out to capture output
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        PrintStream originalOut = System.out;
-        System.setOut(new PrintStream(outputStream));
+@Test
+void previousGetTransactionWithdrawTest() {
+    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+    System.setOut(new PrintStream(outputStream));
 
-        // creating an account and performing a transaction
-        Account account = new Account("Test Account");
-        account.deposit(50);
-        account.withdraw(10);
-        account.getTransactionHistory();
-        String output = outputStream.toString().trim();
-        assertEquals("You last withdrew: £10. Your current balance is: £40", output);
-    }
+    Account account = new Account("Test Account");
+    account.deposit(50);
+    account.withdraw(10);
+    account.getTransactionHistory();
+
+    String output = outputStream.toString().trim();
+    String expectedOutput = """
+        Deposited £50. Balance: £50
+        You last withdrew £10. Your current balance is: £40
+        """;
+    assertEquals(expectedOutput, output);
+}
+
 }

@@ -38,7 +38,7 @@ public class Account {
     public void withdraw(int amount) {
         if (amount != 0 && amount <= balance) {
             balance = balance - amount;
-            transactionHistory.add("Withdrew £" + amount + ". Balance: £" + balance);
+            transactionHistory.add("You last withdrew £" + amount + ". Your current balance is: £" + balance);
         } else {
             transactionHistory.add("Failed withdrawal attempt of £" + amount + ". Balance: £" + balance);
         }
